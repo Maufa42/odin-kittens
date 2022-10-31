@@ -1,4 +1,5 @@
 class KittensController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_kittens, only: %i[show update destroy ]
       def index
         kittens = Kitten.all.order("created_at DESC")
@@ -28,7 +29,7 @@ class KittensController < ApplicationController
       end
 
       def create
-        kitten = Kitten.create(kitten_params)
+        @kitten = Kitten.create(kitten_params)
         
             if @kitten.save
               render json: {
